@@ -57,6 +57,10 @@ Install-Package Microsoft.AspNetCore.Identity.EntityFrameworkCore
 
 ### **Install Toastr (optional, for notifications)**
 Install-Package Toastr
+### **Configure Connection String**
+"ConnectionStrings": {
+  "DefaultConnection": "Server=(localdb)\\MSSQLLocalDB;Database=SimpleTaskTrackrDb;Trusted_Connection=True;MultipleActiveResultSets=true"
+}
 
 ### **Add initial migration**
 Add-Migration InitialMigration
