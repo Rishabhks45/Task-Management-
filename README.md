@@ -1,11 +1,10 @@
-
-3. **Run the Application**:
+**Run the Application**:
    - Open the project in Visual Studio.
    - Press `F5` or run the project to start the application.
 
 ---
 
-## Usage
+#### Usage
 
 1. **Register a New User**:
    - Navigate to the registration page and create a new account.
@@ -22,7 +21,7 @@
 
 ---
 
-## Folder Structure
+#### **Folder Structure**
 
 - **Controllers**: Contains controllers for handling user and task-related operations.
 - **Models**: Defines the data models for users, tasks, and task updates.
@@ -32,14 +31,14 @@
 
 ---
 
-## Security Considerations
+#### **Security Considerations**
 
 - **Password Storage**: Passwords are currently stored in plain text. It is recommended to hash passwords using a secure algorithm like `bcrypt`.
 - **Session Management**: Ensure proper session expiration and protection against session hijacking.
 
 ---
 
-## Future Enhancements
+#### **Future Enhancements**
 
 - Implement password hashing for secure storage.
 - Add client-side validation for forms.
@@ -47,31 +46,33 @@
 - Add unit tests for controllers and services.
 
 ---
-# Install Entity Framework Core
+#### **Install Entity Framework Core**
 Install-Package Microsoft.EntityFrameworkCore
 
-# Install SQL Server provider for EF Core
+### **Install SQL Server provider for EF Core**
 Install-Package Microsoft.EntityFrameworkCore.SqlServer
 
-# Install Identity Framework
+### **Install Identity Framework**
 Install-Package Microsoft.AspNetCore.Identity.EntityFrameworkCore
 
-# Install Toastr (optional, for notifications)
+### **Install Toastr (optional, for notifications)**
 Install-Package Toastr
 
-# Add initial migration
+### **Add initial migration**
 Add-Migration InitialMigration
 
-# Apply the migration to create the database
+### **Apply the migration to create the database**
 Update-Database
 
-## License
+## **License**
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
 
 ---
 
-## Contact
+#### **Contact**
 
 For questions or support, please contact [iamrishabhsharma0301@gmail.com].
 Whatsapp[8789352863]
+
+
