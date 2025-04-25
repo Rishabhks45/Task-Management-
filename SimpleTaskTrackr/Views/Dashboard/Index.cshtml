@@ -1,0 +1,159 @@
+﻿@model IEnumerable<SimpleTaskTrackr.Models.SimpleTaskTrackModel.TasksProperties>
+@{
+    ViewData["Title"] = "Home Page";
+}
+@{
+    int CompleteTask = 0;
+    int totalTasks = 0;
+    int totalPandingTasks = 0;
+    int totalInProgressTasks = 0;
+}
+@* to get all task *@
+@foreach (var allData in Model)
+{
+
+    totalTasks += totalTasks;
+    @* to get all In Progress task *@
+    if (allData.TaskStatus == "In Progress")
+    {
+
+        totalInProgressTasks += totalInProgressTasks;
+    }
+    @* to get all Panding task *@
+    if (allData.TaskStatus == "Pending")
+    {
+        totalPandingTasks += totalPandingTasks;
+    }
+
+}
+
+@* to get all Complete task *@
+@{
+    CompleteTask = totalTasks - (totalPandingTasks + totalInProgressTasks);
+}
+
+<main class="dashboard">
+    <div class="dashboard-header">
+        <h2>Task Dashboard</h2>
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search tasks...">            
+            <a asp-controller="TasksProperties" asp-action="Create" class="btn btn-primary">Add Task</a>
+        </div>
+    </div>
+
+    <div class="dashboard-cards">
+        <div class="card">
+            <div class="card-icon" style="background-color: rgba(52, 152, 219, 0.1); color: var(--primary-color);">
+                <i class="fas fa-list-alt"></i>
+            </div>
+            <div class="card-title">Total Tasks</div>
+            <div class="card-value">@totalTasks</div>
+        </div>
+        <div class="card">
+            <div class="card-icon" style="background-color: rgba(46, 204, 113, 0.1); color: var(--success-color);">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="card-title">Completed</div>
+            <div class="card-value">@CompleteTask</div>
+        </div>
+        <div class="card">
+            <div class="card-icon" style="background-color: rgba(52, 152, 219, 0.1); color: var(--primary-color);">
+                <i class="fas fa-spinner"></i>
+            </div>
+            <div class="card-title">In Progress</div>
+            <div class="card-value">@totalInProgressTasks</div>
+        </div>
+        <div class="card">
+            <div class="card-icon" style="background-color: rgba(243, 156, 18, 0.1); color: var(--warning-color);">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div class="card-title">Pending</div>
+            <div class="card-value">@totalPandingTasks</div>
+        </div>
+    </div>
+
+    <div class="task-filters">
+        <button class="filter-btn active">All Tasks</button>
+        <button class="filter-btn">Pending</button>
+        <button class="filter-btn">In Progress</button>
+        <button class="filter-btn">Completed</button>
+        <button class="filter-btn">Overdue</button>
+    </div>
+
+    <table class="tasks-table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.TaskTitle)</th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TaskDueDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TaskStatus)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedOn)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastUpdatedOn)
+                </th>
+
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TaskTitle)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TaskDueDate)
+                    </td>
+                    <td data-label="Status">
+                        <span class="task-status status-pending">
+                            @Html.DisplayFor(modelItem => item.TaskStatus)
+                        </span>
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedOn)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastUpdatedOn)
+                    </td>nzz
+
+                    <td data-label="Actions">
+                        <div class="actions">
+                            <button class="action-btn btn-primary edit-task"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn btn-danger delete-task"><i class="fas fa-trash"></i></button>
+                            <button class="action-btn btn-success"><i class="fas fa-check"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+    <div class="loader"></div>
+
+    <div class="pagination">
+        <button class="page-btn">&laquo;</button>
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <button class="page-btn">&raquo;</button>
+    </div>
+</main>
+<script>
+    const filterBtns = document.querySelectorAll(".filter-btn");
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            filterBtns.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            // Add filter functionality here
+        });
+    });
+</script>

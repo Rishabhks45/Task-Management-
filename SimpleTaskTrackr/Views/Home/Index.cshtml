@@ -1,0 +1,142 @@
+﻿@model IEnumerable<SimpleTaskTrackr.Models.SimpleTaskTrackModel.TasksProperties>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+
+<main class="dashboard">
+    <div class="dashboard-header">
+        <h2>Task Dashboard</h2>
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search tasks...">
+            <a asp-controller="TasksProperties" asp-action="Create" class="btn btn-primary">Add Task</a>
+        </div>
+    </div>
+
+    <div class="dashboard-cards">
+        <div class="card">
+            <div class="card-icon" style="background-color: rgba(52, 152, 219, 0.1); color: var(--primary-color);">
+                <i class="fas fa-list-alt"></i>
+            </div>
+            <div class="card-title">Total Tasks</div>
+            <div class="card-value">@ViewBag.TotalTasks</div>
+        </div>
+        <div class="card">
+            <div class="card-icon" style="background-color: rgba(46, 204, 113, 0.1); color: var(--success-color);">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="card-title">Completed</div>
+            <div class="card-value">@ViewBag.CompletedTasks</div>
+        </div>
+        <div class="card">
+            <div class="card-icon" style="background-color: rgba(52, 152, 219, 0.1); color: var(--primary-color);">
+                <i class="fas fa-spinner"></i>
+            </div>
+            <div class="card-title">In Progress</div>
+            <div class="card-value">@ViewBag.InProgressTasks</div>
+        </div>
+        <div class="card">
+            <div class="card-icon" style="background-color: rgba(243, 156, 18, 0.1); color: var(--warning-color);">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div class="card-title">Pending</div>
+            <div class="card-value">@ViewBag.PendingTasks</div>
+        </div>
+        <div class="card">
+            <div class="card-icon" style="background-color: rgba(231, 76, 60, 0.1); color: var(--danger-color);">
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <div class="card-title">Overdue</div>
+            <div class="card-value">@ViewBag.OverdueUserTasks</div>
+        </div>
+        <div class="card">
+            <div class="card-icon" style="background-color: rgba(231, 76, 60, 0.1); color: var(--danger-color);">
+                <i class="fas fa-ban"></i>
+            </div>
+            <div class="card-title">Cancelled</div>
+            <div class="card-value">@ViewBag.CancelledUserTasks</div>
+        </div>
+    </div>
+
+    <div class="task-filters">
+        <button class="filter-btn active" data-status="all">All Tasks</button>
+        <button class="filter-btn" data-status="pending">Pending</button>
+        <button class="filter-btn" data-status="in-progress">In Progress</button>
+        <button class="filter-btn" data-status="completed">Completed</button>
+        <button class="filter-btn" data-status="overdue">Overdue</button>
+        <button class="filter-btn" data-status="cancelled">cancelled</button>
+    </div>
+
+    <table class="tasks-table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.TaskTitle)</th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TaskDueDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TaskStatus)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedOn)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastUpdatedOn)
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var isOverdue = item.TaskDueDate < DateTime.Now && item.TaskStatus != "Completed";
+                var statusClass = isOverdue ? "overdue" : item.TaskStatus.ToLower();
+                
+                <tr data-status="@statusClass">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TaskTitle)
+                    </td>
+                    <td class="@(isOverdue ? "text-danger" : "")">
+                        @Html.DisplayFor(modelItem => item.TaskDueDate)
+                    </td>
+                    <td data-label="Status">
+                        <span class="task-status status-@statusClass">
+                            @(isOverdue ? "Overdue" : item.TaskStatus)
+                        </span>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedOn)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastUpdatedOn)
+                    </td>
+                    <td data-label="Actions">
+                        <div class="actions">
+                            <button class="action-btn btn-primary edit-task" onclick="location.href='@Url.Action("Edit", "TasksProperties", new { id = item.TaskId })'"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn btn-success" onclick="location.href='@Url.Action("Details", "TasksProperties", new { id = item.TaskId })'"><i class="fas fa-eye"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+    <div class="loader"></div>
+
+    <div class="pagination">
+        <button class="page-btn">&laquo;</button>
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <button class="page-btn">&raquo;</button>
+    </div>
+</main>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://cdn.tiny.cloud/1/t3mql03ncjdmdvl1xybmbq4ei9792cdikp7qvthc72dnq8kx/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="/js/Homeindex.js" asp-append-version="true"></script> 
+}

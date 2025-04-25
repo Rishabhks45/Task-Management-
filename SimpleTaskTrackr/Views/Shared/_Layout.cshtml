@@ -1,0 +1,149 @@
+﻿@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var userName = HttpContextAccessor.HttpContext.Session.GetString("UserName");
+    var shortName = HttpContextAccessor.HttpContext.Session.GetString("ShortName");
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SimpleTaskTracker</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/SimpleTaskTrackr.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">    
+    
+    
+
+</head>
+
+
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container" style="padding:0px">
+            <div class="logo">
+                <i class="fas fa-tasks"></i>
+                <h1>Task Management System</h1>
+            </div>
+            <div class="user-info">
+                <span>@userName</span>
+                <div class="user-avatar">@shortName</div>
+
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="container main-wrapper">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <h3>Navigation</h3>
+               
+                <ul class="menu">
+                    <li class="@(ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">
+                        <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Dashboard</a>
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["action"].ToString() == "My_Task" ? "active" : "")">
+                        <a asp-controller="Home" asp-action="My_Task"><i class="fas fa-tasks"></i> My Tasks</a>
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["action"].ToString() == "AllUsers" ? "active" : "")">
+                        <a asp-controller="Userproperties" asp-action="AllUsers"><i class="fas fa-user-friends"></i> Team Member</a>
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["action"].ToString() == "Details" ? "active" : "")">
+                        <a asp-controller="Userproperties" asp-action="Details"><i class="fas fa-chart-bar"></i> Profile</a>
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["action"].ToString() == "Settings" ? "active" : "")">
+                        <a asp-controller="Userproperties" asp-action="Settings"><i class="fas fa-cog"></i> Settings</a>
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["action"].ToString() == "Logout" ? "active" : "")">
+                        <a asp-controller="Userproperties" asp-action="Logout" style="color:red"><i class="fas fa-sign-out-alt logout" style="color:red"></i> LogOut</a>
+                    </li>
+                </ul>
+            
+            </aside>
+
+            <!-- Main content placeholder -->
+            <main>
+                <button class="sidebar-toggle" id="sidebar-toggle">
+                    <i class="fas fa-bars"></i> Menu
+                </button>
+                <!-- Main content placeholder (not part of what you asked for) -->
+                <!-- Your page content would go here -->
+                @RenderBody()
+
+            </main>
+        </div>
+
+    </main>
+
+
+    <!-- Footer (added as it wasn't in your original code) -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Us</h3>
+                    <p>Task Management System helps teams organize, track, and manage their work efficiently.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Dashboard</a></li>
+                        <li><a href="#">My Tasks</a></li>
+                        <li><a href="#">Team Tasks</a></li>
+                        <li><a href="#">Reports</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Street, City, Country</li>
+                        <li><i class="fas fa-phone"></i> +1 234 567 8901</li>
+                        <li><i class="fas fa-envelope"></i> info@taskmanager.com</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                &copy; 2025 Task Management System. All rights reserved.
+            </div>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/CreateUser.js" asp-append-version="true"></script>
+    <script src="~/js/toast.js" asp-append-version="true"></script>
+    <script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
+    <script src="https://cdn.tiny.cloud/1/t3mql03ncjdmdvl1xybmbq4ei9792cdikp7qvthc72dnq8kx/tinymce/7/tinymce.min.js"
+            referrerpolicy="origin"> </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script>
+        // Mobile sidebar toggle functionality
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebar = document.querySelector('.sidebar');
+
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+    @await Html.PartialAsync("_TaskNotification")
+</body>
+
+</html>

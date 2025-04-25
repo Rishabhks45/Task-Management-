@@ -1,0 +1,30 @@
+﻿
+@using System.Web
+<script src="~/lib/jquery/dist/jquery.min.js"></script> <!-- jQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> <!-- Toastr -->
+<script>
+    toastr.options = {
+        "closeButton": true,
+        "progressBar": true,
+        "positionClass": "toast-bottom-right",
+        "timeOut": "5000"
+    };
+</script>
+@if (TempData["success"] != null)
+{
+    <script>
+        toastr.success('@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["success"].ToString()))');
+    </script>
+}
+@if (TempData["error"] != null)
+{
+    <script>
+        toastr.error('@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["error"].ToString()))');
+    </script>
+}
+@if (TempData["warning"] != null)
+{
+    <script>
+        toastr.warning('@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["warning"].ToString()))');
+    </script>
+}

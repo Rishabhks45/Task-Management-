@@ -1,0 +1,160 @@
+﻿@model SimpleTaskTrackr.Models.SimpleTaskTrackModel.TasksProperties
+
+@{
+    ViewData["Title"] = "Create";
+}
+@{
+    var statusList = new List<SelectListItem>
+    {
+        new SelectListItem { Text = "Pending", Value = "Pending" },
+    };
+}
+
+<style>
+
+    .form-control:focus, .form-select:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    }
+
+    .form-control:hover, .form-select:hover {
+        border-color: #3498db;
+    }
+
+    .btn-primary {
+        background-color: #3498db;
+        border-color: #3498db;
+    }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+
+    .card {
+        border-radius: 10px;
+    }
+
+    .card-header {
+        background-color: #3498db !important;
+        border-radius: 10px 10px 0 0 !important;
+    }
+
+    .signup-container{
+        width:1100px;
+    }
+</style>
+<div class="signup-container">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">Create New Task</h2>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create" >
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                @* add  createby and user*@
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label asp-for="CreatedBy" class="form-label fw-bold"></label>
+                            <input asp-for="CreatedBy" class="form-control rounded-3" readonly />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label asp-for="UserId" class="form-label fw-bold"></label>
+                            <input asp-for="UserId" class="form-control rounded-3" readonly />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label asp-for="TaskTitle" class="form-label fw-bold"></label>
+                            <input asp-for="TaskTitle" class="form-control rounded-3" placeholder="Enter task title" />
+                            <span asp-validation-for="TaskTitle" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label asp-for="TaskStatus" class="form-label fw-bold"></label>
+                            <select asp-for="TaskStatus" class="form-select rounded-3" asp-items="statusList">
+                                <option value="">-- Select Status --</option>
+                            </select>
+                            <span asp-validation-for="TaskStatus" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>               
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label asp-for="TaskDueDate" class="form-label fw-bold"></label>
+                            <input asp-for="TaskDueDate" class="form-control rounded-3" />
+                            <span asp-validation-for="TaskDueDate" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label asp-for="TaskRemarks" class="form-label fw-bold"></label>
+                            <input asp-for="TaskRemarks" class="form-control rounded-3" placeholder="Enter remarks" />
+                            <span asp-validation-for="TaskRemarks" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label asp-for="CreatedOn" class="form-label fw-bold"></label>
+                            <input asp-for="CreatedOn"  class="form-control rounded-3" />
+                            <span asp-validation-for="CreatedOn" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label asp-for="LastUpdatedOn" class="form-label fw-bold"></label>
+                            <input asp-for="LastUpdatedOn"  class="form-control rounded-3" />
+                            <span asp-validation-for="LastUpdatedOn" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mb-4">
+                    <label asp-for="TaskDescription" class="form-label fw-bold">Task Description</label>
+                    <textarea asp-for="TaskDescription" class="form-control" id="TaskDescriptionEditor" rows="10"></textarea>
+                    <span asp-validation-for="TaskDescription" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-4 d-flex justify-content-between">
+                    <a asp-action="Index" asp-controller="Home" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Back to List
+                    </a>
+                    <button type="submit" class="btn btn-primary px-4">
+                        <i class="bi bi-plus-circle"></i> Create Task
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://cdn.tiny.cloud/1/t3mql03ncjdmdvl1xybmbq4ei9792cdikp7qvthc72dnq8kx/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="/js/CreateTask.js" asp-append-version="true"></script>
+    <script>
+        // Ensure TinyMCE is initialized after the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof tinymce !== 'undefined') {
+                console.log('TinyMCE is loaded');
+            } else {
+                console.error('TinyMCE failed to load');
+            }
+        });
+    </script>
+}
